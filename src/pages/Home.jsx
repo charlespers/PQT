@@ -53,10 +53,21 @@ function Home() {
         }
       }
     };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+  
+    // Run once on mount to check initial position
+    handleScroll();
+  
+    // Debounce scrolling for better performance
+    let timeout;
+    const optimizedScroll = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(handleScroll, 50);
+    };
+  
+    window.addEventListener("scroll", optimizedScroll);
+    return () => window.removeEventListener("scroll", optimizedScroll);
   }, []);
+  
 
 
 
